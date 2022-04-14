@@ -31,7 +31,7 @@ numeric_predictors <- genre[,!names(genre) %in% c('Artist.Name', 'Track.Name', '
 cor(numeric_predictors) 
 ```
 
-Scatterplots of highly correlated variables, colored by Genre Class
+Scatterplots of highly correlated variables, colored by Genre Class, all 10 
 ```{r}
 # valence, danceability 
 val_dance <- ggplot(genre, aes(x = valence, y = danceability, color = Class)) + geom_point()
@@ -49,5 +49,31 @@ grid.arrange(val_dance, loud_energy, loud_acoustic, energy_acoustic, ncol = 2)
 
 # so many classes, we need to subset and only do 2 classes at a time 
 # however, we don't know what each class is -- how do we handle this?
+# maybe we make visualizations and go pairwise through all of the classes ? 
+```
+
+Scatterplots, Metal vs Instrumental
+```{r}
+
+# Instrumental is 7
+# Metal is 8
+mi <- subset(genre, Class  == c(7, 8))
+val_dance <- ggplot(mi, aes(x = valence, y = danceability, color = as.factor(Class))) + geom_point()
+loud_energy <- ggplot(mi, aes(x = loudness, y = energy, color = as.factor(Class))) + geom_point()
+loud_acoustic <- ggplot(mi, aes(x = loudness, y = acousticness, color = as.factor(Class))) + geom_point()
+energy_acoustic <- ggplot(mi, aes(x = energy, y = acousticness, color = as.factor(Class))) + geom_point()
+grid.arrange(val_dance, loud_energy, loud_acoustic, energy_acoustic, ncol = 2) 
+```
+
+Country vs Hip Hop
+```{r}
+# Country is 4
+# Hip Hop is 5
+chh <- subset(genre, Class  == c(4, 5))
+val_dance <- ggplot(chh, aes(x = valence, y = danceability, color = as.factor(Class))) + geom_point()
+loud_energy <- ggplot(chh, aes(x = loudness, y = energy, color = as.factor(Class))) + geom_point()
+loud_acoustic <- ggplot(chh, aes(x = loudness, y = acousticness, color = as.factor(Class))) + geom_point()
+energy_acoustic <- ggplot(chh, aes(x = energy, y = acousticness, color = as.factor(Class))) + geom_point()
+grid.arrange(val_dance, loud_energy, loud_acoustic, energy_acoustic, ncol = 2) 
 ```
 
