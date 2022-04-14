@@ -48,5 +48,6 @@ energy_acoustic <- ggplot(genre, aes(x = energy, y = acousticness, color = Class
 grid.arrange(val_dance, loud_energy, loud_acoustic, energy_acoustic, ncol = 2)
 
 # so many classes, we need to subset and only do 2 classes at a time 
+# however, we don't know what each class is -- how do we handle this?
 ```
 
