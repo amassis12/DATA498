@@ -1,0 +1,52 @@
+---
+title: "Preliminary Visualizations"
+output: pdf_document
+date: '2022-04-14'
+---
+
+Load Libraries
+```{r}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+Load Test Data
+```{r}
+genre <- read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/SPRING2022/DATA498A/DATA498/train.csv")
+```
+
+Multiple Linear Regression Predicting Popularity (if we want to do something predicting popularity)
+```{r}
+# get an idea of variables with predictive power
+popularity_lm <- lm(Popularity~danceability+energy+key+loudness+mode+
+                      speechiness+acousticness+instrumentalness+liveness+valence+tempo+
+                      duration_in.min.ms+time_signature, data = genre)
+summary(popularity_lm)
+```
+
+Correlation Matrix of Numeric Predictors 
+```{r}
+numeric_predictors <- genre[,!names(genre) %in% c('Artist.Name', 'Track.Name', 'Class')]
+cor(numeric_predictors) 
+```
+
+Scatterplots of highly correlated variables, colored by Genre Class
+```{r}
+# valence, danceability 
+val_dance <- ggplot(genre, aes(x = valence, y = danceability, color = Class)) + geom_point()
+
+# loudness, energy
+loud_energy <- ggplot(genre, aes(x = loudness, y = energy, color = Class)) + geom_point()
+
+# loudness, acousticness 
+loud_acoustic <- ggplot(genre, aes(x = loudness, y = acousticness, color = Class)) + geom_point()
+
+# energy, acousticness 
+energy_acoustic <- ggplot(genre, aes(x = energy, y = acousticness, color = Class)) + geom_point()
+
+grid.arrange(val_dance, loud_energy, loud_acoustic, energy_acoustic, ncol = 2)
+
+# so many classes, we need to subset and only do 2 classes at a time 
+```
+
